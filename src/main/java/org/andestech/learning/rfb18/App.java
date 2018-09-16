@@ -1,5 +1,10 @@
 package org.andestech.learning.rfb18;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
 
 /**
  * TODO:
@@ -40,9 +45,13 @@ package org.andestech.learning.rfb18;
 
 public class App 
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) throws CreditInquiryException, ClassNotFoundException, SQLException {
 
-
+        CreditInquiry ce1 = new CreditInquiry();
+        CreditAccount test = new CreditAccount("",0,0,0);
+        test = ce1.createEnquiry();
+        test.makePayment();
+        test.closeCredit();
+        CreditHistory testhistory = new CreditHistory("","");
     }
 }
