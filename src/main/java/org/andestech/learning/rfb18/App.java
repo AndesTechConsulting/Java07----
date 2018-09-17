@@ -1,6 +1,7 @@
 package org.andestech.learning.rfb18;
 
 
+
 /**
  * TODO:
  *
@@ -38,11 +39,39 @@ package org.andestech.learning.rfb18;
  *
  */
 
-public class App 
-{
-    public static void main( String[] args )
-    {
+public class App {
+
+
+    public static void main( String[] args ) throws CreditInquiryException, NotEnoughMaonthlyPaymentException {
+
+        // создание нового кдиента
+        Customer cus1 = new Customer(111, "Ivan", "Ivanov", 30000, 37, 1);
+
+        // заявка на кредит (сумма, кол-во месяцев)
+        CreditInquiry cr1 = new CreditInquiry(10000, 24);
+
+        // решение по кредиту
+        cr1.makeDecision(cus1);
+
+
+        // если принято положительное решение, то создается экземпляр класса CreditAccount
+        if (CreditInquiry.FLAG_DES == true) {
+            CreditAccount crAcc = new CreditAccount(cus1.getName(), cus1.getSname(), cus1.getAge(),
+                    cus1.getSalary(), cus1.getCreditRating(), cr1.getSumOfCredit(), cr1.getTimeOfCredit());
+
+            // внесение денег
+            crAcc.payMoney(5000);
+
+            // отчет операций
+            crAcc.getReport();
+
+            // запись отчета операций на диск
+            crAcc.writeReport();
+        }
+
 
 
     }
+
+
 }
