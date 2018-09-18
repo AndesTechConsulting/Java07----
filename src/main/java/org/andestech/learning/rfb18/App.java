@@ -1,6 +1,8 @@
 package org.andestech.learning.rfb18;
 
 
+import java.util.Scanner;
+
 /**
  * TODO:
  *
@@ -42,6 +44,46 @@ public class App
 {
     public static void main( String[] args )
     {
+
+        String name;
+        String sname;
+        double salary;
+        int age;
+
+        double amount_of_credit;
+        int maturity;//monht
+        double rate;
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Добрый день!");
+        System.out.println("Вам предлагается заполнить данные для получения кредита");
+        System.out.println("Введите ваше имя: ");
+        name = scanner.nextLine();
+        System.out.println("Введите вашу фамилию: ");
+        sname = scanner.nextLine();
+        System.out.println("Введите ваш возраст: ");
+        age = scanner.nextInt();
+        System.out.println("Введите вашу заработную плату: ");
+        salary = scanner.nextDouble();
+
+        Customer customer = new Customer(name,sname,salary,age);
+        customer.setCreditRating();
+        //System.out.println("Ваш кредитный рейтинг: " + customer.getCreditRating());
+
+        System.out.println("Введите желаемую сумму кредита: ");
+        amount_of_credit = scanner.nextDouble();
+        System.out.println("Введите срок кредита в месяцах: ");
+        maturity = scanner.nextInt();
+        System.out.println("Введите процентную ставку от 8 до 15 процентов в виде 0,хх :");
+        rate = scanner.nextDouble();
+
+
+
+        CreditInquiry creditInquiry = new CreditInquiry(customer.getId(),amount_of_credit,maturity,rate,customer.getCreditRating());
+        System.out.println("Заявка на кредит отправлена");
+        creditInquiry.decisionCreditInqury();
+        creditInquiry.checkStatus();
 
 
     }
