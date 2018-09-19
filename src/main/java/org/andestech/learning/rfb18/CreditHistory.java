@@ -27,7 +27,8 @@ String summary = "";
         Connection conn = DriverManager.getConnection(url, props);
         //Записываем логи в БД:
         Statement st = conn.createStatement();
-        String insLog = "INSERT INTO public.\"Credit_history\"(account_number, operation_description) VALUES ("+acc+","+summary+")";
+        String insLog = "INSERT INTO public.\"Credit_history\" (account_number, operation_description) VALUES ('"+acc+"','"+summary+"')";
+        System.out.println(insLog);
         for(int i = 0; i < logs.size(); i++)
         {st.executeUpdate(insLog);}
         st.close();

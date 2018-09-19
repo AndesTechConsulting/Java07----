@@ -79,7 +79,7 @@ public class CreditInquiry {
             //Записываем счет в БД:
             Statement st = conn.createStatement();
             String insAcc = "INSERT INTO public.accounts(\n" +
-                    "            \"fullSum\", \"monthlyPay\", period, \"accNum\", \"customerID\",\"balance\")\n" +
+                    "            \"fullSum\", \"monthlyPay\", period, \"accnum\", \"customerID\",\"balance\")\n" +
                     "    VALUES ("+ca1.toPay+","+ca1.monthlyPay+","+ca1.period+","+ca1.accNum+","+cus1.id+","+ca1.toPay+");\n";
             st.executeUpdate(insAcc);
             //пишем логи в БД

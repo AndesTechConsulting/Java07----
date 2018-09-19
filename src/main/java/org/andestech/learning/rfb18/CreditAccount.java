@@ -87,13 +87,14 @@ public class CreditAccount {
                 //прикрутить сюда exception
                 System.out.println("Невозможно закрыть кредит. Переплата по кредиту, необходимо вернуть средства клиенту");
             }
+            else {
             String deleteAcc = "DELETE FROM public.accounts WHERE accNum ='"+tempAccnum+"'";
             //логируем закрытие в БД
             CreditHistory log1 = new CreditHistory(tempAccnum,"Счет "+tempAccnum+" закрыт");
             log1.logs.add(log1);
             log1.writeLogs();
 
-            System.out.println("Кредит закрыт");
+            System.out.println("Кредит закрыт");}
             rs.close();
             st.close();
             conn.close();
@@ -114,9 +115,10 @@ public class CreditAccount {
             Connection conn = DriverManager.getConnection(url, props);
 
             Statement st = conn.createStatement();
-            String selectBalance = "SELECT balance,monthlyPay FROM public.accounts WHERE accNum = '"+tempAccnum+"'";
+            String selectBalance = "SELECT \"balance\",\"monthlyPay\" FROM public.accounts WHERE \"accnum\" = '"+tempAccnum+"'";
             int balance = 0;
             int payment = 0;
+            System.out.println(selectBalance);
             ResultSet rs = st.executeQuery(selectBalance);
             if (rs.next()){
                 balance = rs.getInt("balance");
