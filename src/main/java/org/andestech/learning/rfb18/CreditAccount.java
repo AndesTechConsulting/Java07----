@@ -120,7 +120,7 @@ public class CreditAccount {
             String selectBalance = "SELECT \"balance\",\"monthlyPay\" FROM public.accounts WHERE \"accnum\" = '"+tempAccnum+"'";
             int balance = 0;
             int payment = 0;
-            System.out.println(selectBalance);
+            //System.out.println(selectBalance);
             ResultSet rs = st.executeQuery(selectBalance);
             if (rs.next()){
                 balance = rs.getInt("balance");

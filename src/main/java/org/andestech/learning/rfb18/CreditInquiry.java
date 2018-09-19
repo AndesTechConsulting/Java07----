@@ -86,8 +86,8 @@ public class CreditInquiry {
             CreditHistory log1 = new CreditHistory(ca1.accNum,"Открыт кредит для клиента "+ cus1.name+" "+cus1.sname+" на сумму "+ca1.toPay+" руб.");
             log1.logs.add(log1);
             log1.writeLogs();
-            ca1.makePayment();
-            ca1.closeCredit();
+            //ca1.makePayment();
+            //ca1.closeCredit();
 
             st.close();
             conn.close();

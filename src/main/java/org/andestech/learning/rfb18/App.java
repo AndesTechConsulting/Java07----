@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.Scanner;
 
 
 /**
@@ -47,13 +48,37 @@ public class App
 {
     public static void main( String[] args ) throws CreditInquiryException, ClassNotFoundException, SQLException, CreditTreatmentException {
 
-        CreditInquiry ce1 = new CreditInquiry();
-        CreditAccount test = new CreditAccount("",0,0,0);
-        test = ce1.createEnquiry();
-        test.makePayment();
-        test.closeCredit();
-        CreditHistory testhistory = new CreditHistory("","");
-        testhistory.readLogs();
+
+        Scanner sc1 = new Scanner(System.in);
+        System.out.println("Введите номер, соответствующий операции:");
+        System.out.println("1 - заведение заяки на кредит");
+        System.out.println("2 - внесение ежемесячного платежа");
+        System.out.println("3 - закрытие кредитного счета");
+        System.out.println("4 - вывести логи на печать");
+        int num = sc1.nextInt();
+        switch (num) {
+            case 1:
+                CreditAccount test = new CreditAccount("",0,0,0);
+                CreditInquiry ce1 = new CreditInquiry();
+                test = ce1.createEnquiry();
+                break;
+            case 2:
+                CreditAccount test1 = new CreditAccount("",0,0,0);
+                test1.makePayment();
+                break;
+            case 3:
+                CreditAccount test2 = new CreditAccount("",0,0,0);
+                test2.closeCredit();
+                break;
+            case 4:
+                CreditHistory testhistory = new CreditHistory("", "");
+                testhistory.readLogs();
+                break;
+        }
+        //test = ce1.createEnquiry();
+        //test.makePayment();
+        //test.closeCredit();
+
 
     }
 }
