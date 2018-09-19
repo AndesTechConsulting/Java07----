@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Java07-materials" />
+        <module name="Java07-HomeWork05" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Java07-HomeWork05" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
