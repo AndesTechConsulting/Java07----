@@ -18,7 +18,7 @@ public class CreditInquiry {
     private static String getCurrentTimeStamp() { DateFormat dateFormat = DateFormat.getDateInstance();
         Date today = new Date(); return dateFormat.format(today.getTime()); }
 
-    public CreditAccount createEnquiry() throws CreditInquiryException, SQLException, ClassNotFoundException {
+    public CreditAccount createEnquiry() throws CreditInquiryException, SQLException, ClassNotFoundException, CreditTreatmentException {
 // Процедура сбора данных и обработка заявки:
         Scanner sc1 = new Scanner(System.in);
 //        System.out.println("Введите имя клиента");

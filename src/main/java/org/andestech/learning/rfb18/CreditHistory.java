@@ -6,12 +6,28 @@ import java.util.Properties;
 
 public class CreditHistory {
 
-String acc = "";
-String summary = "";
+private String acc = "";
+private String summary = "";
 
 
     public CreditHistory(String acc, String summary) {
+        this.setAcc(acc);
+        this.setSummary(summary);
+    }
+
+    public String getAcc() {
+        return acc;
+    }
+
+    public void setAcc(String acc) {
         this.acc = acc;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
         this.summary = summary;
     }
 
@@ -27,8 +43,8 @@ String summary = "";
         Connection conn = DriverManager.getConnection(url, props);
         //Записываем логи в БД:
         Statement st = conn.createStatement();
-        String insLog = "INSERT INTO public.\"Credit_history\" (account_number, operation_description) VALUES ('"+acc+"','"+summary+"')";
-        System.out.println(insLog);
+        String insLog = "INSERT INTO public.\"Credit_history\" (account_number, operation_description) VALUES ('"+ getAcc() +"','"+ getSummary() +"')";
+        //System.out.println(insLog);
         for(int i = 0; i < logs.size(); i++)
         {st.executeUpdate(insLog);}
         st.close();
@@ -45,18 +61,18 @@ String summary = "";
         Connection conn = DriverManager.getConnection(url, props);
         Statement st = conn.createStatement();
         String selectLog = "SELECT account_number, operation_description FROM public.\"Credit_history\"";
-        String querynum = "";
-        String querydesc = "";
-        //st.executeQuery(selectLog);
         ResultSet rs = st.executeQuery(selectLog);
-        if (rs.next()){
-            querynum = rs.getString("account_number");
-            querydesc = rs.getString("operation_description");
+        System.out.println(selectLog);
+        while (rs.next()){
+        logs.add(new CreditHistory(rs.getString("account_number"),rs.getString("operation_description")));
         }
-        logs.add(new CreditHistory(querynum,querydesc));
+        for(int i=0;i<logs.size();i++)
+        System.out.println(logs.get(i).getAcc()+". "+logs.get(i).getSummary());
+
+        rs.close();
+        st.close();
+        conn.close();
     }
-
-
 
 
 

@@ -59,8 +59,8 @@ public class CreditAccount {
         return accNum;
         }
 
-        public void closeCredit() throws SQLException, ClassNotFoundException {
-        //описать и залогировать метод
+        public void closeCredit() throws SQLException, ClassNotFoundException, CreditTreatmentException {
+
             Scanner sc = new Scanner(System.in);
             System.out.println("Введите номер счета для закрытия");
             String tempAccnum = sc.next();
@@ -81,11 +81,13 @@ public class CreditAccount {
             }
             if (balance>0) {
                 //прикрутить сюда exception
-                System.out.println("Невозможно закрыть кредит. Кредит погашен не полностью");
+                //System.out.println("Невозможно закрыть кредит. Кредит погашен не полностью");
+                throw new CreditTreatmentException("Невозможно закрыть кредит. Кредит погашен не полностью");
             }
             else if (balance<0){
-                //прикрутить сюда exception
-                System.out.println("Невозможно закрыть кредит. Переплата по кредиту, необходимо вернуть средства клиенту");
+
+                //System.out.println("Невозможно закрыть кредит. Переплата по кредиту, необходимо вернуть средства клиенту");
+                throw new CreditTreatmentException("Невозможно закрыть кредит. Переплата по кредиту, необходимо вернуть средства клиенту");
             }
             else {
             String deleteAcc = "DELETE FROM public.accounts WHERE accNum ='"+tempAccnum+"'";

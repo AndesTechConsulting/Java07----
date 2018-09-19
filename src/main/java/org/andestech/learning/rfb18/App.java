@@ -45,7 +45,7 @@ import java.util.Properties;
 
 public class App 
 {
-    public static void main( String[] args ) throws CreditInquiryException, ClassNotFoundException, SQLException {
+    public static void main( String[] args ) throws CreditInquiryException, ClassNotFoundException, SQLException, CreditTreatmentException {
 
         CreditInquiry ce1 = new CreditInquiry();
         CreditAccount test = new CreditAccount("",0,0,0);
@@ -53,5 +53,7 @@ public class App
         test.makePayment();
         test.closeCredit();
         CreditHistory testhistory = new CreditHistory("","");
+        testhistory.readLogs();
+
     }
 }
