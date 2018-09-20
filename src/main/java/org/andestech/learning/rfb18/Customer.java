@@ -23,10 +23,7 @@ public class Customer
     {
         return name;
     }
-    public String getSname()
-    {
-        return sname;
-    }
+    public String getSname() { return sname; }
     public int getSalary()
     {
         return salary;
@@ -40,23 +37,23 @@ public class Customer
         return creditRating;
     }
 //---------------------------------------
-    public void setName(String name)
+    void setName(String name)
     {
         this.name = name;
     }
-    public void setSname(String sname)
+    void setSname(String sname)
     {
         this.sname = sname;
     }
-    public void setSalary(int salary)
+    void setSalary(int salary)
     {
         this.salary = salary;
     }
-    public void setAge(int creditRating)
+    void setAge(int creditRating)
     {
         this.age = age;
     }
-    public void setCreditRating(int creditRating)
+    void setCreditRating(int creditRating)
     {
         this.creditRating = creditRating;
     }

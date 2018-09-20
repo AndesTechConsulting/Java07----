@@ -4,6 +4,6 @@ public class CreditInquiryException extends Exception
 {
     public CreditInquiryException()
     {
-
+        System.out.println("Не возможна выдача кредита - несоответствие заявителя требованиям банка!");
     }
 }
