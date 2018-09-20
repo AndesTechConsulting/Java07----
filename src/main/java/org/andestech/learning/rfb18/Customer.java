@@ -9,6 +9,13 @@ public class Customer {
     private int age;
     private String creditRating;
 
+
+    @Override
+    public String toString(){
+        return this.id + " | " + this.name + " | " + this.sname;
+    }
+
+
     Customer(int id, String name, String sname, int salary, int age, String creditRating) {
         this.id = id;
         this.name = name;
@@ -17,6 +24,8 @@ public class Customer {
         this.age = age;
         this.creditRating = creditRating;
     }
+
+
 
     public int getId() {
         return id;

@@ -10,6 +10,10 @@ public class CreditAccount {
     private int sumOfCredit;
     private int timeOfCredit;
 
+    @Override
+    public String toString(){
+        return  " выдан кредит на " + this.sumOfCredit + " руб, сроком на " + this.timeOfCredit;
+    }
 
     CreditAccount(int customerId, int sumOfCredit, int timeOfCredit) {
         this.customerId = customerId;

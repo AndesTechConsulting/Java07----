@@ -16,7 +16,7 @@ public class CreditInquiry {
         this.sumOfCredit = sumOfCredit;
     }
 
-    public static boolean FLAG;
+    public static boolean ACCEPT;
 
     public void doCreditInquiry(Customer customer) throws CreditInquiryException {
         int age = customer.getAge();
@@ -27,13 +27,17 @@ public class CreditInquiry {
 
         try {
             if (salary > 50000 & age > 18 & age < 60 & sum < salary) {
-                FLAG = true;
+                ACCEPT = true;
+                System.out.println("Выдан кредит");
             } else if (creditRating == "BAD" | age > 60 | age < 18) {
-                FLAG = false;
+                ACCEPT = false;
                 throw new CreditInquiryException();
             }
         } catch (CreditInquiryException e) {
             System.out.println("Кредит не выдавать");
         }
     }
+
+
+
 }
