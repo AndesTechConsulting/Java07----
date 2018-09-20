@@ -7,5 +7,7 @@ public class CreditAccount {
     public void CloseLoan(){
 
     };
+    public void OpenLoan(){
 
+    };
 }
