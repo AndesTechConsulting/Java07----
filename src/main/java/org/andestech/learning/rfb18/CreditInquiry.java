@@ -1,7 +1,5 @@
 package org.andestech.learning.rfb18;
 
-import org.andestech.learning.rfb18.ExceptionConteiner.CreditInquiryException;
-
 public class CreditInquiry
 {
 
@@ -54,8 +52,12 @@ public class CreditInquiry
                                  *SALARY_WEIGHT;
         if(decisiveRating < 100)
         {
-          return "Denied";
+            CreditHistory.addInAccountHistory("Customer check", customer.getSname() + " " + customer.getName(),
+                                        creditAmount, repaymentPeriod, "Denied");
+            return "Denied";
         } else {
+            CreditHistory.addInAccountHistory("Customer check", customer.getSname() + " " + customer.getName(),
+                                        creditAmount, repaymentPeriod, "Approved");
             return "Approved";
         }
     }
@@ -73,12 +75,15 @@ public class CreditInquiry
         String decision = checkCustomerCreditChance(customer, creditAmount, repaymentPeriod);
         if(decision.equals("Denied"))
         {
+            CreditHistory.addInAccountHistory("Created credit account", customer.getSname() + " " + customer.getName(),
+                                       creditAmount, repaymentPeriod, "Fail");
             return false;
         }
         else if(decision.equals("Approved"))
         {
+            CreditHistory.addInAccountHistory("Created credit account", customer.getSname() + " " + customer.getName(),
+                                        creditAmount, repaymentPeriod, "Successfully");
             new CreditAccount(customer, creditAmount, FIX_PERCENT, repaymentPeriod);
-            System.out.println("Credit account has been created");
             return true;
         }
         else

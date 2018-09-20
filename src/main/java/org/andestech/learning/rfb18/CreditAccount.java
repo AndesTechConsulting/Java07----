@@ -8,23 +8,31 @@ import java.util.Date;
 
 public class CreditAccount
 {
-    String accountId;
-    Customer creditAccountOwner;
-    private final int creditSum;
-    double percent;
-    double amount;
-    int repaymentPeriod;
-    String creditOpenDate;
+    private String accountId;
+    private Customer creditAccountOwner;
+    private final int creditAmount;
+    private double percent;
+    private double withdrawalAmount;
+    private double depositAmount;
+    private int repaymentPeriod;
+    private String creditOpenDate;
 
-    CreditAccount(Customer creditAccountOwner, int creditSum, double percent, int repaymentPeriod)
+//-------------------------------------------------------------------------------------------------------
+
+    CreditAccount(Customer creditAccountOwner, int creditAmount, double percent, int repaymentPeriod)
     {
+        CreditHistory.addInAccountHistory("Open credit account", creditAccountOwner.getSname() + " " + creditAccountOwner.getName(),
+                                    creditAmount, repaymentPeriod, "Successfully");
         this.creditAccountOwner = creditAccountOwner;
-        this.creditSum = creditSum;
+        this.creditAmount = creditAmount;
         this.percent = percent;
-        this.amount = 0.00;
+        this.withdrawalAmount = creditAmount;
+        this.depositAmount = 0.00;
         SimpleDateFormat dateFormat = new SimpleDateFormat();
         creditOpenDate = dateFormat.format(new Date());
     }
+
+//-------------------------------------------------------------------------------------------------------
 
     public int withdrawl(int amount) throws CreditOverdraftException, InvalidAmountException
     {
@@ -32,14 +40,19 @@ public class CreditAccount
         {
             throw new InvalidAmountException(amount);
         }
-        if(creditSum < amount)
+        if(withdrawalAmount < amount)
         {
             throw new CreditOverdraftException();
         }
-        else if (creditSum == amount)
+        else if (withdrawalAmount == amount)
         {
+            withdrawalAmount = withdrawalAmount - amount;
+            CreditHistory.addInAccountHistory("Closing of a loan", creditAccountOwner.getSname() + " " + creditAccountOwner.getName(),
+                    creditAmount, repaymentPeriod, "Successfully");
             return 0;
         }
+            CreditHistory.addInOperationHistory("Withdrawl funds", creditAccountOwner.getSname() + " "
+                        + creditAccountOwner.getName(), amount, (int) withdrawalAmount, (int)depositAmount, "Successfully");
         return 1;
     }
 
@@ -49,14 +62,16 @@ public class CreditAccount
         {
             throw new InvalidAmountException(amount);
         }
-        this.amount = this.amount + amount;
-        if(this.amount >= (creditSum*percent + creditSum))
+        depositAmount = depositAmount + amount;
+        if(depositAmount >= (creditAmount*percent + creditAmount))
         {
+            CreditHistory.addInAccountHistory("Closing credit account", creditAccountOwner.getSname() + " " + creditAccountOwner.getName(),
+                    creditAmount, repaymentPeriod, "Successfully");
             return 0;
         }
+        CreditHistory.addInOperationHistory("Dipositing funds", creditAccountOwner.getSname() + " "
+                + creditAccountOwner.getName(), amount, (int) depositAmount, (int)withdrawalAmount, "Successfully");
         return 1;
     }
-
-
 
 }
