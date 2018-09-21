@@ -1,17 +1,39 @@
 package org.andestech.learning.rfb18;
 
+import com.mysql.jdbc.Driver;
+
 import java.util.ArrayList;
 import java.io.*;
 import java.util.Date;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import static java.sql.DriverManager.getConnection;
 
 public class CreditHistory
 {
+
     private static ArrayList<String[]> accountHistory = new ArrayList();
     private static ArrayList<String[]> operationHistory = new ArrayList();
 
+    //-------------------------------------------------------------------------------------
+    private static final String dbUrl = "jdbc:mysql://192.168.1.9:3306/test";
+    private static final String user = "root";
+    private static final String password = "2003Alisa";
+
+    private static Connection con;
+    private static Statement stmt;
+    private static ResultSet rs;
+    //--------------------------------------------------------------------------------------
+
     public static void addInAccountHistory(String operationType, String customer, int creditAmount, int repaymentPeriod, String decision)
     {
-        accountHistory.add(new String[] {operationType,
+        Date date = new Date();
+        accountHistory.add(new String[] {  date.toString(),
+                                           operationType,
                                            customer,
                                            creditAmount + "",
                                            repaymentPeriod + "",
@@ -20,7 +42,9 @@ public class CreditHistory
     public static void addInOperationHistory(String operationType, String customer, int operationAmount, int currBalance,
                                              int repaymentAmount, String decision)
     {
-        operationHistory.add(new String[] {operationType,
+        Date date = new Date();
+        operationHistory.add(new String[] {date.toString(),
+                                           operationType,
                                            customer,
                                            operationAmount + "",
                                            currBalance + "",
@@ -90,14 +114,29 @@ public class CreditHistory
         }
     }
 
-    public static void loadingAccountHistoryFromFile(String fileName)
+    public static void loadingHistoryFromFile(String fileName, ArrayList<String[]> historyList)
     {
-        FileReader fileReader = null;
-        File file = null;
+        FileInputStream fstream = null;
+        BufferedReader br = null;
         try
         {
-            file = new File(fileName);
-            fileReader = new FileReader(file);
+            fstream = new FileInputStream(fileName);
+            br = new BufferedReader(new InputStreamReader(fstream));
+
+            String temp;
+            String[] tempArr;
+            ArrayList<String> tempArrList = new ArrayList();
+
+            while((temp = br.readLine()) != null)
+            {
+                    tempArrList.add(temp);
+
+            }
+
+            for(int i = 0; i < tempArrList.size();  i++)
+            {
+                historyList.add(tempArrList.get(i).split("\t"));
+            }
 
         } catch (FileNotFoundException e)
         {
@@ -108,23 +147,68 @@ public class CreditHistory
         }
     }
 
-    public static void loadingOperationHistoryFromFile(String fileName)
-    {
-        FileReader fileReader = null;
-        File file = null;
-        try
-        {
-            file = new File(fileName);
-            fileReader = new FileReader(file);
 
-        } catch (FileNotFoundException e)
-        {
-            System.out.println("Нет такого файла или ошибка при его чтение");
-        } catch (IOException e)
-        {
-            System.out.println("Что - то не так с выводом ...");
+    public static void unloadingAccountHistoryToDB() throws ClassNotFoundException
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+
+        try{
+           con = DriverManager,getConnection(dbUrl, user, password);
+           stmt = con.createStatement();
+           for(int i = 0; i < accountHistory.size(); i++) {
+               rs = stmt.executeQuery(
+                       "insert into 'account_history' ('DateTime', 'Operation_Type', 'Customer', 'Credit_Amount', 'Repayment_Period', 'Decision' )" +
+                               "values ('" + accountHistory.get(i)[0] + "', '"+  accountHistory.get(i)[1]
+                                           + "', '"+  accountHistory.get(i)[2] + "', '"+  accountHistory.get(i)[3]
+                                           + "', '"+  accountHistory.get(i)[4] + "', '"+  accountHistory.get(i)[5] +"')"
+               );
+           }
         }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try { con.close(); } catch(SQLException e) {System.out.println("Error: Cann't close connection");}
+            try { stmt.close(); } catch(SQLException e) {System.out.println("Error: Cann't close Statement");}
+            try { rs.close(); } catch(SQLException e) {System.out.println("Error: Cann't close Result");}
+        }
+
     }
 
+    public static void unloadingOperationHistoryToDB() throws ClassNotFoundException
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+
+        try{
+            con = DriverManager,getConnection(dbUrl, user, password);
+            stmt = con.createStatement();
+            for(int i = 0; i < operationHistory.size(); i++) {
+                rs = stmt.executeQuery(
+                        "insert into 'account_history' ('DateTime','Operation_Type', 'Customer', 'Operation_Amount', 'Current_Balance', 'Repayment_Amount', 'Decision' )" +
+                                "values ('" + operationHistory.get(i)[0] + "', '"+  operationHistory.get(i)[1]
+                                + "', '"+  operationHistory.get(i)[2] + "', '"+  operationHistory.get(i)[3]
+                                + "', '"+  operationHistory.get(i)[4] + "', '"+  accountHistory.get(i)[5] + "', '"+  accountHistory.get(i)[6] + "')"
+                );
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try { con.close(); } catch(SQLException e) {System.out.println("Error: Cann't close connection");}
+            try { stmt.close(); } catch(SQLException e) {System.out.println("Error: Cann't close Statement");}
+            try { rs.close(); } catch(SQLException e) {System.out.println("Error: Cann't close Result");}
+        }
+
+    }
+
+    public static void cleanHistory(ArrayList<String[]> a)
+    {
+        a.clear();
+    }
 
 }
